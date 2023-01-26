@@ -30,18 +30,21 @@ const DayWrapper = styled.div`
   width: 33px;
 `;
 
-export const CalendarGrid: React.FC = ({ startDay }) => {
-  const totalDays = 42;
+type Props = {
+  startDay: moment.Moment,
+};
+
+export const CalendarGrid: React.FC<Props> = ({ startDay }) => {
+  // const totalDays = 42;
   const day = startDay.clone().subtract();
   const daysArray = [...Array(42)].map(() => day.add(1, 'day').clone());
 
   return (
     <GridWrapper>
       {
-        daysArray.map((dayItem, i) => (
+        daysArray.map((dayItem) => (
           <CellWrapper
             key={dayItem.format('DDMMYYYY')}
-            isWeekend={true}
           >
             <RowInCell>
               <DayWrapper>

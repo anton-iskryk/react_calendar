@@ -10,7 +10,7 @@ export const App: React.FC = () => {
   // window.moment = moment;
 
   moment.updateLocale('en', { week: { dow: 1 } });
-  const startDay = moment().startOf('month').startOf('week');
+  const startDay: moment.Moment = moment().startOf('month').startOf('week');
   // const endDay = moment().endOf('month').endOf('week');
 
   // const calendar = [];
