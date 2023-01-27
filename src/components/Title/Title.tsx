@@ -8,6 +8,6 @@ const DivWrapper = styled('div')`
 
 export const Title: React.FC = () => {
   return (
-    <DivWrapper></DivWrapper>
+    <DivWrapper />
   );
 };

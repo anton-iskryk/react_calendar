@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import moment from 'moment';
@@ -19,18 +19,36 @@ const ShadowWrapper = styled('div')`
 
 export const App: React.FC = () => {
   moment.updateLocale('en', { week: { dow: 1 } });
-  const today = moment();
+  // const today = moment();
+  const [today, setToday] = useState(moment());
   const startDay: moment.Moment = today
     .clone()
     .startOf('month')
     .startOf('week');
 
-  window.moment = moment;
+  // window.moment = moment;
+
+  const prevHandler = () => {
+    setToday(prev => prev.clone().subtract(1, 'month'));
+  };
+
+  const todayHandler = () => {
+    setToday(moment());
+  };
+
+  const nextHandler = () => {
+    setToday(prev => prev.clone().add(1, 'month'));
+  };
 
   return (
     <ShadowWrapper>
       <Title />
-      <Monitor today={today} />
+      <Monitor
+        today={today}
+        prevHandler={prevHandler}
+        todayHandler={todayHandler}
+        nextHandler={nextHandler}
+      />
       <CalendarGrid startDay={startDay} />
     </ShadowWrapper>
   );

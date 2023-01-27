@@ -20,6 +20,11 @@ const TitleWrapper = styled(TextWrapper)`
   margin-right: 8px;
 `;
 
+const ButtonsWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+`;
+
 const ButtonWrapper = styled('button')`
   border: unset;
   background-color:#565759;
@@ -37,20 +42,34 @@ const TodayButton = styled(ButtonWrapper)`
 
 type Props = {
   today: moment.Moment,
+  prevHandler: () => void,
+  todayHandler: () => void,
+  nextHandler: () => void,
 };
 
-export const Monitor: React.FC<Props> = ({ today }) => {
+export const Monitor: React.FC<Props> = ({
+  today,
+  prevHandler,
+  todayHandler,
+  nextHandler,
+}) => {
   return (
     <DivWrapper>
       <div>
         <TitleWrapper>{today.format('MMMM')}</TitleWrapper>
         <TextWrapper>{today.format('YYYY')}</TextWrapper>
       </div>
-      <div>
-        <ButtonWrapper> &lt; </ButtonWrapper>
-        <TodayButton>Today</TodayButton>
-        <ButtonWrapper> &gt; </ButtonWrapper>
-      </div>
+      <ButtonsWrapper>
+        <ButtonWrapper onClick={() => prevHandler()}>
+          &lt;
+        </ButtonWrapper>
+        <TodayButton onClick={() => todayHandler()}>
+          Today
+        </TodayButton>
+        <ButtonWrapper onClick={() => nextHandler()}>
+          &gt;
+        </ButtonWrapper>
+      </ButtonsWrapper>
     </DivWrapper>
   );
 };
