@@ -17,7 +17,7 @@ const CellWrapper = styled.div<CellProps>`
   min-height: ${props => (props.isHeader ? 24 : 100)}px;
   min-width: 130px;
   background-color: #1e1f21;
-  color: #dddcdd;
+  color: ${props => (props.isSelectedMonth ? '#ddd' : '#555759')};
   cursor: ${props => (props.isHeader ? 'default' : 'pointer')};
 
   &:hover {
@@ -25,9 +25,10 @@ const CellWrapper = styled.div<CellProps>`
   }
 `;
 
-const RowInCell = styled.div`
+const RowInCell = styled.div<CellProps>`
   display: flex;
   justify-content: flex-end;
+  ${props => (props.pr && `padding-right: ${props.pr * 8}px`)};
 `;
 
 const DayWrapper = styled.div`
@@ -51,21 +52,26 @@ const CurrentDay = styled.div`
 
 type Props = {
   startDay: moment.Moment,
+  today: moment.Moment,
 };
 
-export const CalendarGrid: React.FC<Props> = ({ startDay }) => {
+export const CalendarGrid: React.FC<Props> = ({ startDay, today }) => {
   const totalDays = 42;
-  const day = startDay.clone().subtract(1, 'day');
-  const daysArray = [...Array(totalDays)].map(() => day.add(1, 'day').clone());
+  const myDay = startDay.clone().subtract(1, 'day');
+  const daysMap = [...Array(totalDays)].map(() => myDay.add(1, 'day').clone());
 
-  const isCurrentDay = (dayy: moment.Moment) => moment().isSame(dayy, 'day');
+  const isCurrentDay = (day: moment.Moment) => moment().isSame(day, 'day');
+
+  const isSelectedMonth = (day: moment.Moment) => (
+    today.isSame(day, 'month')
+  );
 
   return (
     <>
       <GridWrapper isHeader>
         {[...Array(7)].map((_, i) => (
-          <CellWrapper isHeader>
-            <RowInCell>
+          <CellWrapper isHeader isSelectedMonth>
+            <RowInCell pr={1}>
               {moment().day(i + 1).format('ddd')}
             </RowInCell>
           </CellWrapper>
@@ -74,9 +80,10 @@ export const CalendarGrid: React.FC<Props> = ({ startDay }) => {
 
       <GridWrapper>
         {
-          daysArray.map((dayItem) => (
+          daysMap.map((dayItem) => (
             <CellWrapper
               key={dayItem.unix()}
+              isSelectedMonth={isSelectedMonth(dayItem)}
             >
               <RowInCell>
                 <DayWrapper>
