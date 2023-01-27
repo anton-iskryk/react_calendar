@@ -15,6 +15,11 @@ const CellWrapper = styled.div`
   min-height: 100px;
   background-color: #1e1f21;
   color: #dddcdd;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #464646;
+  }
 `;
 
 const RowInCell = styled.div`
@@ -36,7 +41,7 @@ type Props = {
 
 export const CalendarGrid: React.FC<Props> = ({ startDay }) => {
   // const totalDays = 42;
-  const day = startDay.clone().subtract();
+  const day = startDay.clone().subtract(1, 'day');
   const daysArray = [...Array(42)].map(() => day.add(1, 'day').clone());
 
   return (
