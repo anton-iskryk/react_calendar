@@ -1,0 +1,28 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "Time to eat",
+      "description": "Time to eat",
+      "date": "1615131412"
+    },
+    {
+      "id": 2,
+      "title": "Time to sleep",
+      "description": "Time to sleep",
+      "date": "1615131413"
+    },
+    {
+      "id": 3,
+      "title": "Time to wake up",
+      "description": "Time to wake up",
+      "date": "1615131414"
+    },
+    {
+      "id": 4,
+      "title": "Time to abs",
+      "description": "Time to abs",
+      "date": "1615131415"
+    }
+  ]
+}
