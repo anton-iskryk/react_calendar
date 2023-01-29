@@ -25,12 +25,11 @@ const CellWrapper = styled.div<CellProps>`
 
 const RowInCell = styled.div<CellProps>`
   display: flex;
-  justify-content: flex-end;
   flex-direction: column;
   ${props => (props.pr && `padding-right: ${props.pr * 8}px`)};
 `;
 
-const ShowDivWrapper = styled.div`
+const ShowDayWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
@@ -55,15 +54,17 @@ const EventItemWrapper = styled.button`
   cursor: pointer;
   margin: 0;
   padding: 0;
+  text-align: left;
 `;
 
 const DayWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 33px;
-  width: 33px;
+  height: 31px;
+  width: 31px;
   margin: 2px;
+  cursor: pointer;
 `;
 
 const CurrentDay = styled.div`
@@ -72,7 +73,7 @@ const CurrentDay = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: red;
+  background: #f00;
   border-radius: 50%;
 `;
 
@@ -80,6 +81,8 @@ type Props = {
   startDay: moment.Moment,
   today: moment.Moment,
   totalDays: number,
+  events: unknown,
+  openFormHandler: (a: string, b?: any) => void,
 };
 
 export const CalendarGrid: React.FC<Props> = ({
@@ -87,6 +90,7 @@ export const CalendarGrid: React.FC<Props> = ({
   today,
   totalDays,
   events,
+  openFormHandler,
 }) => {
   const myDay = startDay.clone().subtract(1, 'day');
   const daysMap = [...Array(totalDays)].map(() => myDay.add(1, 'day').clone());
@@ -117,8 +121,8 @@ export const CalendarGrid: React.FC<Props> = ({
               isSelectedMonth={isSelectedMonth(dayItem)}
             >
               <RowInCell>
-                <ShowDivWrapper>
-                  <DayWrapper>
+                <ShowDayWrapper>
+                  <DayWrapper onClick={() => openFormHandler('Create')}>
                     {
                       isCurrentDay(dayItem) ? (
                         <CurrentDay>{dayItem.format('D')}</CurrentDay>
@@ -127,7 +131,7 @@ export const CalendarGrid: React.FC<Props> = ({
                       )
                     }
                   </DayWrapper>
-                </ShowDivWrapper>
+                </ShowDayWrapper>
                 <EventListWrapper>
                   {
                     events
@@ -140,7 +144,9 @@ export const CalendarGrid: React.FC<Props> = ({
                       ))
                       .map(event => (
                         <li key={event.id}>
-                          <EventItemWrapper>
+                          <EventItemWrapper
+                            onClick={() => openFormHandler('Update', event)}
+                          >
                             {event.title}
                           </EventItemWrapper>
                         </li>
